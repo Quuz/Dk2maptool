@@ -1,0 +1,11 @@
+# Собиранные файлы
+*.exe
+*.o
+*.obj
+*.layout
+
+# Windows
+*.pdb
+
+# Dev-C++ артефакты
+!dmp_all.bat
