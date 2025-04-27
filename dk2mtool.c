@@ -52,9 +52,12 @@ int main(int argc, char *argv[])
   }
   printf("Get result read map files\n");
   result=dk2m_read_mapfiles(lvl,map_name,flags);
+  printf("Check\n");
   if (result!=ERR_NONE)
   {
     //system("PAUSE");	
+    printf("Error: dk2m_read_mapfiles returned code %d\n", result);
+    fflush(stdout);
     return 4;
   }
   printf("switch\n");
