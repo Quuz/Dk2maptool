@@ -37,23 +37,27 @@ int main(int argc, char *argv[])
         system("PAUSE");	
     	return 1;
     }
+    printf("Get struct\n");
   struct DK2_Level *lvl;
   short flags = DK2MFLAG_VERBOSE;
   char *map_name=argv[1];
   char operatn=tolower(argv[2][0]);
   short result;
+  printf("Get result lvl create\n");
   result=dk2m_lvl_create(&lvl,flags);
   if (result!=ERR_NONE)
   {
     //system("PAUSE");	
     return 2;
   }
+  printf("Get result read map files\n");
   result=dk2m_read_mapfiles(lvl,map_name,flags);
   if (result!=ERR_NONE)
   {
     //system("PAUSE");	
     return 4;
   }
+  printf("switch\n");
   switch (operatn)
   {
   case 'd':
@@ -65,6 +69,7 @@ int main(int argc, char *argv[])
       printf("Exiting without any changes.\n");
       break;
   }
+  printf("free\n");
   result=dk2m_lvl_free(&lvl,flags);
   return 0;
 }

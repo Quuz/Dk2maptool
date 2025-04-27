@@ -1401,11 +1401,16 @@ short dk2m_read_chunkedfile(struct DK2_Level *lvl,const char *fname,dk2m_read_ch
 /*
  * Loads the whole DK2 map.
  */
+
 short dk2m_read_mapfiles(struct DK2_Level *lvl,const char *name,short flags)
 {
   char *fname;
   short result;
   result=ERR_NONE;
+  if (result != ERR_NONE) {
+      printf("Не смог прочитать файлы карты (код %d)\n", result);
+      return 4;
+  }
   fname=malloc(strlen(name)+SIZEOF_DK2_FilePathStr);
   if (fname==NULL)
   {
