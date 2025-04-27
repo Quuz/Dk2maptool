@@ -1367,16 +1367,15 @@ short dk2m_lvl_free(struct DK2_Level **lvl,short flags)
 short dk2m_read_chunkedfile(struct DK2_Level *lvl,const char *fname,dk2m_read_chunk read_chunk,short flags)
 {
   struct DK2M_Chunk chunk;
-  FILE *fp;
-  fp=fopen_S(fname,"rb");
-  if (fp==NULL)
-  {
+  FILE* fp = NULL; // Initialize the file pointer
+  errno_t err = fopen_s(&fp, fname, "rb"); // Use fopen_s correctly
+  if (err != 0 || fp == NULL) {
       if (flags & DK2MFLAG_VERBOSE) {
           char err_buffer[256]; // Buffer to store the error message
           strerror_s(err_buffer, sizeof(err_buffer), errno); // Properly call strerror_s
           dk2m_ferror("%s - %s", err_buffer, fname); // Pass the error message to dk2m_ferror
-    }
-    return -1;
+      }
+      return -1;
   }
   unsigned long offset;
   long nread;
