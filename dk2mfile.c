@@ -1366,6 +1366,7 @@ short dk2m_lvl_free(struct DK2_Level **lvl,short flags)
  */
 short dk2m_read_chunkedfile(struct DK2_Level *lvl,const char *fname,dk2m_read_chunk read_chunk,short flags)
 {
+    printf(">>> Trying to open file: %s\n", fname);
   struct DK2M_Chunk chunk;
   FILE* fp = NULL; // Initialize the file pointer
   errno_t err = fopen_s(&fp, fname, "rb"); // Use fopen_s correctly
@@ -1375,6 +1376,7 @@ short dk2m_read_chunkedfile(struct DK2_Level *lvl,const char *fname,dk2m_read_ch
           strerror_s(err_buffer, sizeof(err_buffer), errno); // Properly call strerror_s
           dk2m_ferror("%s - %s", err_buffer, fname); // Pass the error message to dk2m_ferror
       }
+      printf("ERROR in dk2m_read_chunkedfile for %s\n", fname);
       return -1;
   }
   unsigned long offset;
@@ -1407,22 +1409,29 @@ short dk2m_read_mapfiles(struct DK2_Level *lvl,const char *name,short flags)
   char *fname;
   short result;
   result=ERR_NONE;
+  printf("Check2 start\n");
   if (result != ERR_NONE) {
       printf("Не смог прочитать файлы карты (код %d)\n", result);
       return 4;
   }
   fname=malloc(strlen(name)+SIZEOF_DK2_FilePathStr);
+
+  printf("Check2 start 2\n");
   if (fname==NULL)
   {
       if (flags&DK2MFLAG_VERBOSE)
         dk2m_ferror("Can't allocate memory to store file name");
       return -1;
   }
+  printf("Check2 start 2-5\n");
   if (result==ERR_NONE)
   {
-      sprintf_s(fname,"%s.kwd",name);
+       snprintf(fname, sizeof(fname), "%s.kwd", name);
+      printf("Check2 start 2-6\n");
       result=dk2m_read_chunkedfile(lvl,fname,dk2m_read_kwdchunk,flags);
+      printf("Check2 start 2-7\n");
   }
+  printf("Check2 start 3\n");
   int i;
   int currpath_len = filename_from_path(name)-name;
   if ((currpath_len<0)||(currpath_len>strlen(name)))
